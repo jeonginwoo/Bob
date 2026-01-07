@@ -84,7 +84,7 @@ function Menu({ title, apiUrl }: { title: string; apiUrl:string }) {
         foodImages = imageMedia.slice(0, imageMedia.length - 1);
       }
     } else {
-      // Default behavior if not Donto or Yuns, or if specific conditions not met
+     
       foodImages = imageMedia;
     }
 
@@ -174,9 +174,9 @@ function Menu({ title, apiUrl }: { title: string; apiUrl:string }) {
               right: 14,
               top: 14,
               color: (theme) => theme.palette.grey[500],
-              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Darker semi-transparent background
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
               '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.7)', // Darker on hover
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
               }
             }}
           >

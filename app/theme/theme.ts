@@ -5,27 +5,27 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#0A192F', // --primary-color
+      main: '#0A192F',
     },
     secondary: {
-      main: '#64FFDA', // --accent-color
+      main: '#64FFDA',
     },
     background: {
-      default: '#0A192F', // --background-color
-      paper: '#172A45',    // --secondary-color
+      default: '#0A192F',
+      paper: '#172A45',   
     },
     text: {
-      primary: '#CCD6F6',   // --text-color
-      secondary: '#8892B0', // --light-text-color
+      primary: '#CCD6F6',  
+      secondary: '#8892B0',
     },
   },
   typography: {
     fontFamily: 'Roboto, sans-serif',
     h1: {
-        color: '#64FFDA' // --accent-color
+        color: '#64FFDA'
     },
     h2: {
-        color: '#64FFDA' // --accent-color
+        color: '#64FFDA'
     },
   },
 });

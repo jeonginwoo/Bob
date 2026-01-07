@@ -2,10 +2,12 @@
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { 
-    Box, TextField, Button, Slider, Typography, useTheme 
+    Box, TextField, Button, Slider, Typography, useTheme, IconButton, Tooltip
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ReplayIcon from '@mui/icons-material/Replay';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
-// Define types for clarity
 interface Rung {
     y: number;
     x1: number;
@@ -24,7 +26,7 @@ const Ladder = () => {
     const [names, setNames] = useState<string[]>([]);
     const [ladderData, setLadderData] = useState<Rung[][]>([]);
     const [ladderHeight, setLadderHeight] = useState(400);
-    const [gameState, setGameState] = useState<'initial' | 'started' | 'tracing' | 'finished'>('initial'); // Added 'tracing'
+    const [gameState, setGameState] = useState<'initial' | 'started' | 'tracing' | 'finished'>('initial');
     const [playerInput, setPlayerInput] = useState('');
     const theme = useTheme();
 
@@ -35,12 +37,12 @@ const Ladder = () => {
         if (!ctx) return;
         
         const num = players.length;
-        const actualCanvasWidth = canvas.offsetWidth; // Get the actual rendered width
+        const actualCanvasWidth = canvas.offsetWidth;
         const height = ladderHeight;
-        canvas.width = actualCanvasWidth; // Set drawing buffer to actual width
+        canvas.width = actualCanvasWidth;
         canvas.height = height;
-        // Adjust step calculation to reduce side margins
-        const step = actualCanvasWidth / (num + 1); // Keep same logic, but with dynamic width
+       
+        const step = actualCanvasWidth / (num + 1);
         const minRungGap = 30;
         const rungCount = Math.floor((height - 70) / 50);
         const segmentHeight = (height - 70) / rungCount;
@@ -68,7 +70,7 @@ const Ladder = () => {
             for (let j = 0; j < rungCount; j++) {
                 const x1 = step * (i + 1);
                 const x2 = step * (i + 2);
-                let y: number = 0; // Initialize y with a number type
+                let y: number = 0;
                 let attempts = 0;
                 do {
                     y = 40 + (segmentHeight * j) + (Math.random() * segmentHeight * 0.8) + (segmentHeight * 0.1);
@@ -116,7 +118,7 @@ const Ladder = () => {
         setGameState('started');
     };
 
-    // Reset is now just a state change, not a separate button
+   
     const handleReset = () => {
         setPlayers([]);
         setResults([]);
@@ -132,9 +134,9 @@ const Ladder = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        function drawSegment(currentCtx: CanvasRenderingContext2D) { // Add currentCtx parameter
+        function drawSegment(currentCtx: CanvasRenderingContext2D) {
             if (i < path.length - 1) {
-                currentCtx.save(); // Use currentCtx
+                currentCtx.save();
                 currentCtx.beginPath();
                 currentCtx.moveTo(path[i].x, path[i].y);
                 currentCtx.lineTo(path[i+1].x, path[i+1].y);
@@ -143,16 +145,16 @@ const Ladder = () => {
                 currentCtx.stroke();
                 currentCtx.restore();
                 i++;
-                setTimeout(() => drawSegment(currentCtx), 50); // Pass currentCtx in recursive call
+                setTimeout(() => drawSegment(currentCtx), 50);
             } else {
-                setGameState('finished'); // Set to finished when animation completes
+                setGameState('finished');
             }
         }
-        drawSegment(ctx); // Initial call, pass ctx
+        drawSegment(ctx);
     }, [theme.palette.secondary.main]);
 
     const handleTrace = useCallback(() => {
-        setGameState('tracing'); // Set to tracing immediately on trace click
+        setGameState('tracing');
         const coffeeIndex = names.indexOf('커피');
         if (coffeeIndex === -1) return;
 
@@ -228,17 +230,17 @@ const Ladder = () => {
                         value={playerInput}
                         onChange={(e) => setPlayerInput(e.target.value)}
                         size="small"
-                        color="secondary" // Set TextField color to secondary for focused state
+                        color="secondary"
                         InputLabelProps={{
                             sx: {
-                                color: theme.palette.text.secondary, // Default label color (text.secondary)
+                                color: theme.palette.text.secondary,
                                 '&.Mui-focused': {
-                                    color: theme.palette.secondary.main, // Focused label color (secondary.main)
+                                    color: theme.palette.secondary.main,
                                 },
                             },
                         }}
                         sx={{
-                            '& .MuiInputBase-root': { color: theme.palette.text.primary }, // Input text color
+                            '& .MuiInputBase-root': { color: theme.palette.text.primary },
                         }}
                     />
                     <Button 
@@ -255,40 +257,56 @@ const Ladder = () => {
                 </Box>
             )}
             {gameState !== 'initial' && (
-                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 2 }}>
-                    <Button 
-                        variant="contained" 
-                        onClick={handleRetry} 
-                        disabled={gameState === 'tracing'} 
-                        sx={{ // Adjusted color from info to secondary for consistency with theme.
-                            backgroundColor: theme.palette.secondary.main, 
-                            color: theme.palette.primary.main,
-                            '&:hover': { backgroundColor: theme.palette.secondary.dark }
-                        }}
-                    >
-                        다시하기
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        color="success" 
-                        onClick={handleTrace} 
-                        disabled={gameState === 'finished' || gameState === 'tracing'} 
-                        sx={{ 
-                            backgroundColor: theme.palette.success.main, 
-                            color: theme.palette.success.contrastText,
-                            '&:hover': { backgroundColor: theme.palette.success.dark }
-                        }}
-                    >
-                        결과 확인
-                    </Button>
-                    {/* Removed Reset Button */}
+                 <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 2 }}>
+                    <Tooltip title="재구성" placement="top">
+                        <IconButton 
+                            onClick={handleRetry} 
+                            disabled={gameState === 'tracing'} 
+                            color="secondary"
+                            sx={{
+                                backgroundColor: theme.palette.secondary.main, 
+                                color: theme.palette.primary.main,
+                                '&:hover': { backgroundColor: theme.palette.secondary.dark }
+                            }}
+                        >
+                            <ReplayIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="결과 확인" placement="top">
+                        <IconButton 
+                            onClick={handleTrace} 
+                            disabled={gameState === 'finished' || gameState === 'tracing'} 
+                            color="success"
+                            sx={{ 
+                                backgroundColor: theme.palette.success.main, 
+                                color: theme.palette.success.contrastText,
+                                '&:hover': { backgroundColor: theme.palette.success.dark }
+                            }}
+                        >
+                            <VisibilityIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="초기화" placement="top">
+                        <IconButton 
+                            onClick={handleReset} 
+                            color="secondary" 
+                            disabled={gameState === 'tracing'}
+                            sx={{
+                                backgroundColor: theme.palette.secondary.main, 
+                                color: theme.palette.primary.main,
+                                '&:hover': { backgroundColor: theme.palette.secondary.dark }
+                            }}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
             )}
             
             {players.length > 0 && (
                  <Box sx={{ mt: 2 }}>
                     <Typography gutterBottom color="text.primary">
-                        사다리 길이: {ladderHeight}px
+                        사다리 길이: {ladderHeight}
                     </Typography>
                     <Slider
                         value={ladderHeight}
@@ -299,7 +317,7 @@ const Ladder = () => {
                         marks
                         valueLabelDisplay="auto"
                         color="secondary"
-                        sx={{ width: '90%', mx: 'auto' }}
+                        sx={{ width: '100%', mx: 'auto' }}
                     />
                 </Box>
             )}

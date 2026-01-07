@@ -6,7 +6,7 @@ import Ladder from './Ladder';
 import { Box, Typography, Tabs, Tab } from '@mui/material';
 
 const GameContainer = () => {
-    const [activeGame, setActiveGame] = useState<number>(0); // 0 for Roulette, 1 for Ladder
+    const [activeGame, setActiveGame] = useState<number>(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setActiveGame(newValue);
