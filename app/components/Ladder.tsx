@@ -37,6 +37,9 @@ const Ladder = () => {
     "initial" | "started" | "tracing" | "finished"
   >("initial");
   const [playerInput, setPlayerInput] = useState("");
+  const [winningPlayerName, setWinningPlayerName] = useState<string | null>(
+    null
+  );
   const theme = useTheme();
 
   const drawLadder = useCallback(() => {
@@ -143,6 +146,7 @@ const Ladder = () => {
     setResults([]);
     setNames([]);
     setGameState("initial");
+    setWinningPlayerName(null);
 
     const canvas = canvasRef.current;
     if (canvas) {
@@ -153,7 +157,7 @@ const Ladder = () => {
     }
   };
   const animatePath = useCallback(
-    (path: PathPoint[]) => {
+    (path: PathPoint[], winnerName: string) => {
       let i = 0;
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -174,11 +178,12 @@ const Ladder = () => {
           setTimeout(() => drawSegment(currentCtx), 50);
         } else {
           setGameState("finished");
+          setWinningPlayerName(winnerName);
         }
       }
       drawSegment(ctx);
     },
-    [theme.palette.secondary.main]
+    [theme.palette.secondary.main, setWinningPlayerName]
   );
 
   const handleTrace = useCallback(() => {
@@ -238,8 +243,16 @@ const Ladder = () => {
       }
     }
 
-    animatePath(path);
-  }, [names, players.length, ladderData, ladderHeight, animatePath]);
+    animatePath(path, results[currentLane]);
+  }, [
+    names,
+    players.length,
+    ladderData,
+    ladderHeight,
+    animatePath,
+    players,
+    results,
+  ]);
 
   useEffect(() => {
     if (gameState === "started") {
@@ -361,6 +374,18 @@ const Ladder = () => {
             display: "block",
           }}
         ></canvas>
+      )}
+
+      {gameState === "finished" && winningPlayerName && (
+        <Typography
+          variant="h5"
+          component="p"
+          color="secondary"
+          align="center"
+          sx={{ mt: 2, fontWeight: "bold" }}
+        >
+          🎉 당첨: {winningPlayerName} 🎉
+        </Typography>
       )}
     </Box>
   );

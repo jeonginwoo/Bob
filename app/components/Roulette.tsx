@@ -165,11 +165,10 @@ const Roulette = () => {
   const handleWeightChange = (index: number, newWeightInput: string) => {
     let newWeight: number;
     if (newWeightInput === "" || isNaN(parseFloat(newWeightInput))) {
-      newWeight = 1; // Treat empty or invalid as 1
+      newWeight = 1;
     } else {
       newWeight = parseFloat(newWeightInput);
       if (newWeight < 1) {
-        // Set to 1 if less than 1
         newWeight = 1;
       }
     }
@@ -236,7 +235,7 @@ const Roulette = () => {
           onChange={(e) => setNewMenu(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           size="small"
-          color="secondary" // Apply color prop
+          color="secondary"
           InputLabelProps={{
             sx: {
               color: theme.palette.text.secondary,
@@ -246,7 +245,6 @@ const Roulette = () => {
             },
           }}
           sx={{
-            // Keep input text color
             "& .MuiInputBase-root": { color: theme.palette.text.primary },
           }}
         />
@@ -339,7 +337,7 @@ const Roulette = () => {
                     fullWidth
                     variant="outlined"
                     size="small"
-                    color="secondary" // Apply color prop
+                    color="secondary"
                     sx={{
                       "& .MuiInputBase-root": {
                         color: theme.palette.text.primary,
@@ -347,7 +345,6 @@ const Roulette = () => {
                     }}
                     inputProps={{ style: { textAlign: "center" } }}
                     InputLabelProps={{
-                      // Added for consistency, although this TextField doesn't have a label
                       sx: {
                         color: theme.palette.text.secondary,
                         "&.Mui-focused": {
