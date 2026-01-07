@@ -7,7 +7,9 @@ let numPlayers = 0;
 
 document.getElementById('ladder-height').addEventListener('input', function() {
     document.getElementById('ladder-height-value').textContent = this.value;
-    rebuildLadder();
+    if (numPlayers > 0) { // Only redraw if a game has been started
+        drawLadder();
+    }
 });
 
 function shuffleArray(array) {
@@ -43,7 +45,7 @@ function startLadderGame() {
     document.getElementById('start-ladder-btn').style.display = 'none';
     document.getElementById('retry-ladder-btn').style.display = 'inline-block';
     document.getElementById('trace-ladder-btn').style.display = 'inline-block';
-    document.getElementById('ladder-controls').style.display = 'block';
+    document.getElementById('ladder-controls').style.display = 'flex';
 
     drawLadder();
 }
@@ -80,7 +82,9 @@ function drawLadder() {
 
     ladderCtx.clearRect(0, 0, width, height);
     ladderCtx.lineWidth = 2;
-    ladderCtx.font = '14px Pretendard';
+    ladderCtx.strokeStyle = '#CCD6F6'; // Set ladder color
+    ladderCtx.fillStyle = '#CCD6F6';   // Set text color
+    ladderCtx.font = '14px Roboto';
     ladderCtx.textAlign = 'center';
 
     for (let i = 0; i < numPlayers; i++) {
@@ -192,7 +196,7 @@ function tracePath(playerIndex) {
 
 function animatePath(path, index) {
     let i = 0;
-    const pathColor = 'red';
+    const pathColor = '#64FFDA'; // Accent color
     function draw() {
         if (i < path.length - 1) {
             ladderCtx.save();

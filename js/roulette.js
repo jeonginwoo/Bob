@@ -54,6 +54,7 @@ const updateMenuList = () => {
 };
 
 const newMake = () => {
+    // console.log(`Canvas width: ${$c.width}, height: ${$c.height}`); // Removed console.log
     const [cw, ch] = [$c.width / 2, $c.height / 2];
     const totalWeight = product.reduce((sum, item) => sum + item.weight, 0);
     let startAngle = 0;
@@ -78,7 +79,7 @@ const newMake = () => {
     });
 
     ctx.fillStyle = "#000";
-    ctx.font = "18px Pretendard";
+    ctx.font = "18px Roboto"; // Changed to Roboto
     ctx.textAlign = "center";
     startAngle = 0;
 
@@ -98,12 +99,36 @@ const newMake = () => {
 
 const spin = () => {
     if (stopRequested && currentSpeed > 0) {
-        currentSpeed -= 0.1;
+        currentSpeed -= Math.random() * 0.1 + 0.05; // Make deceleration random
     }
 
     if (currentSpeed <= 0) {
+        currentSpeed = 0;
         clearInterval(rotateInterval);
         rotateInterval = null;
+        stopRequested = false; // Reset for next spin
+
+        // Announce the result
+        const totalWeight = product.reduce((sum, item) => sum + item.weight, 0);
+        
+        // The pointer is at the top (270 degrees or 1.5 * PI)
+        // The wheel rotates clockwise. So we need to find which slice is at 270 degrees.
+        const finalAngle = (angle % 360);
+        const winningAngle = (270 - finalAngle + 360) % 360; // Normalize to 0-360
+        const winningAngleRad = winningAngle * Math.PI / 180;
+
+        let start = 0;
+        for(let i = 0; i < product.length; i++) {
+            const arc = (product[i].weight / totalWeight) * 2 * Math.PI;
+            if (winningAngleRad >= start && winningAngleRad < start + arc) {
+                setTimeout(() => { // Delay alert to allow animation to fully stop
+                    alert(`오늘의 점심은?! 🎉 ${product[i].name} 🎉`);
+                }, 100);
+                break;
+            }
+            start += arc;
+        }
+
         return;
     }
 
@@ -121,36 +146,37 @@ const rotate = () => {
         alert('메뉴는 최소 2개 이상이어야 합니다.');
         return;
     }
-    stopRequested = false;
-    currentSpeed = 15;
-    rotateInterval = setInterval(spin, 10);
-    setTimeout(() => stopRotate(), 4000);
-};
+    if (rotateInterval) return; // Prevent multiple spins
 
-const stopRotate = () => {
-    stopRequested = true;
+    currentSpeed = Math.random() * 10 + 15; // Random initial speed
+    angle = 0; // Reset angle
+    stopRequested = false;
+    rotateInterval = setInterval(spin, 10);
+
+    // Request stop after a random time
+    setTimeout(() => {
+        stopRequested = true;
+    }, Math.random() * 2000 + 2000); // Stop between 2-4 seconds
 };
 
 const add = () => {
     if (menuAdd.value.trim()) {
         product.push({ name: menuAdd.value.trim(), weight: 50 });
+        // Reset colors to generate a new set including the new item
         colors.length = 0;
-        for (let i = 0; i < product.length; i++) {
-            colors.push(generatePastelColor());
-        }
-        menuAdd.value = '';
         updateMenuList();
         newMake();
+        menuAdd.value = '';
     } else {
         alert("메뉴를 입력한 후 버튼을 클릭 해 주세요");
     }
 };
 
 const resizeCanvas = () => {
-    const containerWidth = document.getElementById('roulette-container').offsetWidth;
-    const containerHeight = document.querySelector('.dynamic-row').offsetHeight;
-    $c.width = containerWidth - 60; // padding 고려
-    $c.height = Math.min(containerHeight - 60, containerWidth - 60);
+    const container = document.getElementById('roulette-container');
+    const size = container.offsetWidth;
+    $c.width = size;
+    $c.height = size;
     newMake();
 };
 
@@ -161,6 +187,3 @@ menuAdd.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('resize', resizeCanvas);
-
-updateMenuList();
-resizeCanvas();

@@ -1,110 +1,186 @@
+:root {
+    --primary-color: #0A192F;
+    --secondary-color: #172A45;
+    --accent-color: #64FFDA;
+    --text-color: #CCD6F6;
+    --light-text-color: #8892B0;
+    --background-color: #0A192F;
+}
+
 body {
-    font-family: Pretendard, Arial, sans-serif;
-    text-align: center;
-    margin: 5px; /* 외부 여백 추가 */
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
     padding: 0;
-    height: calc(100vh - 100px); /* 창 높이에 외부 여백만큼 뺌 */
-    box-sizing: border-box;
+    text-align: center;
 }
 
-/* 전체 테이블 스타일 */
-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    height: 100%; /* 테이블 높이 전체 화면에 맞춤 */
+.header {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-bottom: 1px solid var(--accent-color);
 }
 
-/* 테이블 데이터 셀 스타일 */
-td {
-    width: 33%;
-    vertical-align: top;
-    padding: 10px;
+h1 {
+    margin: 0;
+    color: var(--accent-color);
 }
 
-/* iframe 스타일 - 가로 100%, 세로 동적으로 설정 */
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.content-section {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 20px;
+    flex: 1 1 300px;
+    min-width: 300px;
+    min-height: 706px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.game-section {
+    height: auto;
+}
+
+.section-title {
+    color: var(--accent-color);
+    margin-top: 0;
+}
+
 iframe {
     width: 100%;
-    height: 100%; /* 부모 높이에 맞게 동적 설정 */
+    height: 100%;
     border: none;
+    border-radius: 4px;
+    flex-grow: 1;
 }
 
-/* 룰렛 컨테이너 스타일 */
+.game-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-selection {
+    margin-bottom: 20px;
+}
+
+.game-button {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 4px;
+    margin: 0 5px;
+}
+
+.game-button.active,
+.game-button:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.game-content {
+    display: none;
+}
+
+.game-content.active {
+    display: block;
+}
+
 #roulette-container {
     position: relative;
-    width: calc(90% - 80px);
-    height: calc(90% - 80px); /* 부모 요소에 맞춰서 룰렛 크기 조정 */
+    width: 100%;
+    max-width: 300px;
     margin: 0 auto;
-    box-sizing: border-box;
 }
 
-#roulette-table {
-}
-
-/* 캔버스 스타일 */
 canvas {
     display: block;
     margin: 0 auto;
+    width: 100%;
+    height: auto;
 }
 
-/* 룰렛 화살표 스타일 */
 .pointer {
     position: absolute;
-    top: -20px; /* 화살표 위치를 중심에 맞춤 */
+    top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 10px;
-    height: 40px;
-    background-color: black;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid var(--accent-color);
 }
 
-/* 입력 필드 스타일 */
-input {
-    margin: 10px;
-    padding: 5px;
+.controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* 숫자 입력 필드 스타일 */
+input[type="text"],
 input[type="number"] {
-    width: 80%;
-    max-width: 100px;
-    box-sizing: border-box;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 1px solid var(--light-text-color);
+    border-radius: 4px;
+    padding: 10px;
+    flex-grow: 1;
 }
 
-/* 버튼 스타일 */
 button {
-    padding: 5px 10px;
-    background-color: #478968;
-    color: white;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
     border: none;
+    padding: 10px 20px;
     cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
 }
 
-/* 버튼 호버 스타일 */
 button:hover {
-    background-color: #356c54;
+    background-color: #52D8B9;
 }
 
-/* 메뉴 리스트 테이블 스타일 */
 #menuList {
     margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
-    max-height: 200px; /* 최대 높이를 제한 */
-    overflow-y: auto; /* 스크롤 허용 */
-    display: block; /* 테이블 스크롤을 위한 블록화 */
 }
 
-/* 테이블 헤더 및 데이터 셀 스타일 */
-th, td {
-    padding: 5px;
-    border: 1px solid #ddd;
+th,
+td {
+    padding: 10px;
+    border: 1px solid var(--light-text-color);
     text-align: center;
-    vertical-align: middle;
 }
 
-/* 동적 행 높이 */
-.dynamic-row {
-    height: calc(100% - 60px); /* 남은 공간을 계산해 동적 높이 설정 */
-    overflow-y: auto; /* 2행 스크롤 추가 */
+th {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+}
+
+#ladder-canvas {
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.footer {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    margin-top: 20px;
+    color: var(--light-text-color);
 }
