@@ -150,11 +150,17 @@ const Roulette = () => {
         setProduct(product.filter((_, i) => i !== index));
     };
 
-    const handleWeightChange = (index: number, newWeight: number) => {
-        if (isNaN(newWeight) || newWeight <= 0) {
-            alert('비율은 0보다 큰 숫자로 입력해야 합니다.');
-            return;
+    const handleWeightChange = (index: number, newWeightInput: string) => {
+        let newWeight: number;
+        if (newWeightInput === '' || isNaN(parseFloat(newWeightInput))) {
+            newWeight = 1; // Treat empty or invalid as 1
+        } else {
+            newWeight = parseFloat(newWeightInput);
+            if (newWeight < 1) { // Set to 1 if less than 1
+                newWeight = 1;
+            }
         }
+        
         const updatedProduct = [...product];
         updatedProduct[index].weight = newWeight;
         setProduct(updatedProduct);
@@ -193,21 +199,25 @@ const Roulette = () => {
             </Box>
             <Box sx={{ mt: 3, display: 'flex', gap: 1, justifyContent: 'center' }}>
                 <TextField
-                    sx={{
-                        flexGrow: 1,
-                        minWidth: 0,
-                        '& .MuiInputBase-root': { color: theme.palette.text.primary },
-                        '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.text.secondary },
-                        '& .MuiInputLabel-root': { color: theme.palette.text.secondary },
-                        '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.main },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.main },
-                    }}
+                    fullWidth
                     label="메뉴 추가"
                     variant="outlined"
                     value={newMenu}
                     onChange={(e) => setNewMenu(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
                     size="small"
+                    color="secondary" // Apply color prop
+                    InputLabelProps={{
+                        sx: {
+                            color: theme.palette.text.secondary,
+                            '&.Mui-focused': {
+                                color: theme.palette.secondary.main,
+                            },
+                        },
+                    }}
+                    sx={{ // Keep input text color
+                        '& .MuiInputBase-root': { color: theme.palette.text.primary },
+                    }}
                 />
                 <Button 
                     variant="contained" 
@@ -251,17 +261,23 @@ const Roulette = () => {
                                     <TextField
                                         type="number"
                                         value={item.weight}
-                                        onChange={(e) => handleWeightChange(index, parseFloat(e.target.value))}
+                                        onChange={(e) => handleWeightChange(index, e.target.value)}
                                         fullWidth
                                         variant="outlined"
                                         size="small"
+                                        color="secondary" // Apply color prop
                                         sx={{
                                             '& .MuiInputBase-root': { color: theme.palette.text.primary },
-                                            '& .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                                            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
                                         }}
                                         inputProps={{ style: { textAlign: 'center' } }}
+                                        InputLabelProps={{ // Added for consistency, although this TextField doesn't have a label
+                                            sx: {
+                                                color: theme.palette.text.secondary,
+                                                '&.Mui-focused': {
+                                                    color: theme.palette.secondary.main,
+                                                },
+                                            },
+                                        }}
                                     />
                                 </TableCell>
                                 <TableCell sx={{ borderColor: theme.palette.text.secondary, color: theme.palette.text.primary, textAlign: 'center' }}>
