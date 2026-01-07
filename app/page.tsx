@@ -114,12 +114,10 @@ function Menu({ title, apiUrl }: { title: string; apiUrl:string }) {
             {foodImages.map((media, index) => (
               <ImageListItem key={index}>
                 <img
-                  srcSet={`${media.url}?w=164&h=164&fit=crop&auto=format 1x,
-                           ${media.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${media.url}?w=164&h=164&fit=crop&auto=format`}
+                  src={media.url}
                   alt={`${menu.title} food image ${index + 1}`}
                   loading="lazy"
-                  style={{ borderRadius: 4, cursor: 'pointer' }}
+                  style={{ width: '100%', height: 'auto', borderRadius: 4, cursor: 'pointer' }}
                   onClick={() => handleImageClick(media.url)}
                 />
               </ImageListItem>
@@ -220,19 +218,11 @@ export default function Home() {
           justifyContent: 'center', 
           gap: theme.spacing(3), // Equivalent to 24px gap for 8px base spacing
         }}>
-          <Box sx={{ flex: '1 1 300px' }}> {/* flex-grow, flex-shrink, flex-basis */}
-            <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ height: '100%' }}>
-                <Menu title="돈토" apiUrl={dontoUrl} />
-              </CardContent>
-            </Card>
+          <Box sx={{ flex: '1 1 300px' }}>
+            <Menu title="돈토" apiUrl={dontoUrl} />
           </Box>
           <Box sx={{ flex: '1 1 300px' }}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ height: '100%' }}>
-                <Menu title="윤스" apiUrl={yunsUrl} />
-              </CardContent>
-            </Card>
+            <Menu title="윤스" apiUrl={yunsUrl} />
           </Box>
           <Box sx={{ flex: '1 1 300px' }}>
             <Card sx={{ height: '100%' }}>
@@ -247,7 +237,7 @@ export default function Home() {
       <AppBar position="static" sx={{ backgroundColor: theme.palette.background.paper, mt: 'auto' }}>
         <Toolbar>
           <Typography variant="body2" color="text.secondary" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            밥밥밥 ver 3.0
+            밥밥밥 ver 3.0.1
           </Typography>
         </Toolbar>
       </AppBar>

@@ -228,12 +228,17 @@ const Ladder = () => {
                         value={playerInput}
                         onChange={(e) => setPlayerInput(e.target.value)}
                         size="small"
+                        color="secondary" // Set TextField color to secondary for focused state
+                        InputLabelProps={{
+                            sx: {
+                                color: theme.palette.text.secondary, // Default label color (text.secondary)
+                                '&.Mui-focused': {
+                                    color: theme.palette.secondary.main, // Focused label color (secondary.main)
+                                },
+                            },
+                        }}
                         sx={{
-                            '& .MuiInputBase-root': { color: theme.palette.text.primary },
-                            '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.text.secondary },
-                            '& .MuiInputLabel-root': { color: theme.palette.text.secondary },
-                            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.main },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.main },
+                            '& .MuiInputBase-root': { color: theme.palette.text.primary }, // Input text color
                         }}
                     />
                     <Button 

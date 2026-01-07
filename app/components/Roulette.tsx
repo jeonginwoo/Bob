@@ -215,7 +215,8 @@ const Roulette = () => {
                     sx={{ 
                         backgroundColor: theme.palette.secondary.main, 
                         color: theme.palette.primary.main,
-                        '&:hover': { backgroundColor: theme.palette.secondary.dark }
+                        '&:hover': { backgroundColor: theme.palette.secondary.dark },
+                        padding: '8px 12px',
                     }}
                 >
                     추가
@@ -226,7 +227,8 @@ const Roulette = () => {
                     sx={{ 
                         backgroundColor: theme.palette.secondary.main, 
                         color: theme.palette.primary.main,
-                        '&:hover': { backgroundColor: theme.palette.secondary.dark }
+                        '&:hover': { backgroundColor: theme.palette.secondary.dark },
+                        padding: '8px 12px',
                     }}
                 >
                     돌리기
