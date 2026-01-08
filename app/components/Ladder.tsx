@@ -270,6 +270,11 @@ const Ladder = () => {
             variant="outlined"
             value={playerInput}
             onChange={(e) => setPlayerInput(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleStart();
+              }
+            }}
             size="small"
             color="secondary"
             InputLabelProps={{
