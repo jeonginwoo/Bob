@@ -29,7 +29,7 @@ const DontoMenuView: React.FC<DontoMenuViewProps> = ({
     if (view !== "modal") return;
 
     const calculateSize = () => {
-      const containerWidth = window.innerWidth * 0.8;
+      const containerWidth = window.innerWidth * 0.9;
       const containerHeight = window.innerHeight * 0.9;
 
       if (containerWidth === 0 || containerHeight === 0) return;

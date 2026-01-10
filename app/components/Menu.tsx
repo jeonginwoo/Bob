@@ -255,13 +255,15 @@ function Menu({ title, apiUrl }: { title:string; apiUrl: string }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "auto",
-            maxWidth: "95vw",
-            maxHeight: "95vh",
+            width: "90vw",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             outline: "none",
+            ".swiper-wrapper": {
+              display: "flex",
+              alignItems: "center",
+            },
           }}
         >
           <IconButton
@@ -290,8 +292,8 @@ function Menu({ title, apiUrl }: { title:string; apiUrl: string }) {
             keyboard={{ enabled: true }}
             initialSlide={initialSlide}
             style={{
-              '--swiper-navigation-color': '#fff',
-              '--swiper-pagination-color': '#fff',
+              '--swiper-navigation-color': '#e4e4e4',
+              '--swiper-pagination-color': '#e4e4e4',
             } as React.CSSProperties}
           >
             {allImages.map((imageUrl, index) => (
@@ -300,7 +302,6 @@ function Menu({ title, apiUrl }: { title:string; apiUrl: string }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '95vh',
                 }}>
                   {imageUrl === "combined_donto_view" && menu ? (
                     <DontoMenuView
