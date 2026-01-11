@@ -2,8 +2,8 @@
 
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import GameContainer from "./components/GameContainer";
-import Menu from "./components/Menu";
+import GameContainer from "./components/game/GameContainer";
+import Menu from "./components/menu/Menu";
 import {
   Box,
   AppBar,
@@ -87,7 +87,7 @@ export default function Home() {
               color="text.secondary"
               sx={{ flexGrow: 1, textAlign: "center" }}
             >
-              밥밥밥 ver 3.2.1
+              밥밥밥 ver 3.2.2
             </Typography>
           </Toolbar>
         </AppBar>
